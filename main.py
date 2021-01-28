@@ -83,7 +83,6 @@ def main():
     print(terms)
 
 
-
     cti = CTI()
 
     scored = {}
@@ -95,7 +94,6 @@ def main():
 
     for term, cti in scored.items():
         print(term, cti)
-
 
     #get_articles('/home/panos/Downloads/greek_wiki/extracted', max_articles=1, min_length=2000)
 

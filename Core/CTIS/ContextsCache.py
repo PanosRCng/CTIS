@@ -1,48 +1,38 @@
 import shutil
 
-import lucene
-from lupyne import engine
+import plyvel
 
 from Core.Data import Data
-
-
-
-lucene.initVM()
-
 
 
 
 class ContextsCache:
 
 
-    def __init__(self, index_name):
+    def __init__(self, cache_name):
+        self.__cache = plyvel.DB(Data.get(cache_name), create_if_missing=True)
 
-        self.__indexer = engine.Indexer(directory=Data.get(index_name))
-
-        self.__indexer.set('title', engine.Field.Text, stored=False, tokenized=False)
-        self.__indexer.set('context', engine.Field.Text, stored=True, tokenized=False, indexOptions=None)
+        #self.__indexer.set('title', engine.Field.Text, stored=False, tokenized=False)
+        #self.__indexer.set('context', engine.Field.Text, stored=True, tokenized=False, indexOptions=None)
 
 
     @staticmethod
-    def delete(index_name):
-        shutil.rmtree(Data.get(index_name))
+    def delete(cache_name):
+        shutil.rmtree(Data.get(cache_name))
 
 
 
     def set(self, title, context):
-
-        self.__indexer.add(title=title, context=context)
-
-        self.__indexer.commit()
+        self.__cache.put(title.encode(), context.encode())
 
 
     def get(self, title):
 
-        results = self.__indexer.search( engine.Query.term('title', title) )
+        results = self.__cache.get(title.encode())
 
-        if len(results) == 0:
+        if results is None:
             return None
 
-        return results[0]['context']
+        return results
 
 
