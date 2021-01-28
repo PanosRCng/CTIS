@@ -12,7 +12,9 @@ class CTI:
 
 
     def __init__(self):
+
         self.__knowledge_base = KnowledgeBase()
+        self.__tfidf_vectorizer = TfidfVectorizer()
 
 
 
@@ -37,9 +39,7 @@ class CTI:
 
     def __semantic_relatedness(self, context_i, context_j):
 
-        tfidf_vectorizer = TfidfVectorizer()
-
-        tfidf_matrix = tfidf_vectorizer.fit_transform([context_i, context_j])
+        tfidf_matrix = self.__tfidf_vectorizer.fit_transform([context_i, context_j])
 
         return cosine_similarity(tfidf_matrix[0], tfidf_matrix[1])[0][0]
 
