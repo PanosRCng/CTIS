@@ -1,12 +1,13 @@
 import time
+import spacy
+from multiprocessing import Pool
+from multiprocessing import Process
+from functools import partial
 
 from Core.IO import IO
 from Core.Wikipedia import Wikipedia
 from Core.CTIS.CTI import CTI
 from Core.Tokenizer import Tokenizer
-
-
-import spacy
 
 
 
@@ -55,13 +56,15 @@ def featured_context_set(term):
             pass
 
 
+def test_job(term, cti, context):
+
+    return term, cti.term_informativeness(term, context)
+
+
 
 
 
 def main():
-
-    start_time = time.time()
-
 
     context = 'Ο ιός είναι παθογενετικός παράγοντας που δρα μολύνοντας τα κύτταρα ενός οργανισμού, ενσωματώνοντας το γενετικό του υλικό στο γονιδίωμα αυτών και χρησιμοποιώντας για τον πολλαπλασιασμό του τους μηχανισμούς αντιγραφής, μεταγραφής και μετάφρασης του κυττάρου, όπως και τα περισσότερα ένζυμα που χρειάζεται για την επιβίωση του.'
 
@@ -81,7 +84,9 @@ def main():
         terms.append(token.text)
 
     print(terms)
+    terms = terms[:2]
 
+    start_time = time.time()
 
     cti = CTI()
 
@@ -89,6 +94,11 @@ def main():
 
     for term in terms:
         scored[term] = cti.term_informativeness(term, context)
+
+
+    #with Pool(2) as p:
+    #    for term, score in p.map(partial(test_job, cti=cti, context=context), terms):
+    #        scored[term] = score
 
     scored = dict(sorted(scored.items(), key=lambda item: item[1], reverse=True))
 
