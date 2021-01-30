@@ -12,12 +12,11 @@ class SearchEngine:
 
 
     def contexts_titles(self, term):
-        return json.dumps('[1,2,3]')
-        #return json.dumps(wikipedia.search(term, results=10, suggestion=False))
+        return json.dumps(wikipedia.search(term, results=10, suggestion=False))
 
 
     def context(self, context_title):
-        return ''
+
         context = None
 
         try:

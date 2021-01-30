@@ -1,2 +1,10 @@
 {
+  "elasticsearch":
+  {
+    "es": {
+      "host": "192.168.1.12",
+      "port": 8000,
+      "url_prefix": "es"
+    }
+  }
 }

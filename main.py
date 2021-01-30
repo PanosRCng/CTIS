@@ -9,6 +9,8 @@ from Core.Wikipedia import Wikipedia
 from Core.CTIS.CTI import CTI
 from Core.Tokenizer import Tokenizer
 
+from Core.CTIS.SearchEngine import SearchEngine
+
 
 
 
@@ -66,6 +68,7 @@ def test_job(term, cti, context):
 
 def main():
 
+    '''
     context = 'Ο ιός είναι παθογενετικός παράγοντας που δρα μολύνοντας τα κύτταρα ενός οργανισμού, ενσωματώνοντας το γενετικό του υλικό στο γονιδίωμα αυτών και χρησιμοποιώντας για τον πολλαπλασιασμό του τους μηχανισμούς αντιγραφής, μεταγραφής και μετάφρασης του κυττάρου, όπως και τα περισσότερα ένζυμα που χρειάζεται για την επιβίωση του.'
 
     terms = ['ιός', 'παθογενετικός']
@@ -104,12 +107,18 @@ def main():
 
     for term, cti in scored.items():
         print(term, cti)
+    '''
 
-    #get_articles('/home/panos/Downloads/greek_wiki/extracted', max_articles=1, min_length=2000)
+    get_articles('/home/panos/Downloads/greek_wiki/extracted', max_articles=1, min_length=2000)
 
 
+    search_engine = SearchEngine()
 
-    print(time.time() - start_time)
+    res = search_engine.context('Χαράλαμπος Ταϊγανίδης')
+
+    print(res)
+
+    #print(time.time() - start_time)
 
 
 

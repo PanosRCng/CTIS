@@ -1,6 +1,5 @@
 import shutil
 
-import plyvel
 
 from Core.Data import Data
 
