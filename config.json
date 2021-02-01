@@ -1,4 +1,14 @@
 {
+  "query_cache":
+  {
+    "name": "query_cache",
+    "driver": "SqliteDictQueryCache"
+  },
+  "contexts_cache":
+  {
+    "name": "contexts_cache",
+    "driver": "SqliteDictContextsCache"
+  },
   "elasticsearch":
   {
     "es": {

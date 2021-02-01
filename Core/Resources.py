@@ -44,6 +44,7 @@ class Resources:
     def __load(self):
 
         return {
+            'indices_settings': self.__load_resource('indices_settings'),
             'stopwords_el': self.__load_resource('stopwords_el'),
             'stopwords_en': self.__load_resource('stopwords_en'),
         }

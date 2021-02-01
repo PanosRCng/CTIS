@@ -1,7 +1,9 @@
 import json
+
+from Core.Config import Config
 from Core.CTIS.SearchEngine import SearchEngine
-#from Core.CTIS.QueryCache import QueryCache
-#from Core.CTIS.ContextsCache import ContextsCache
+from Core.CTIS.QueryCache.QueryCache import QueryCache
+from Core.CTIS.ContextsCache.ContextsCache import ContextsCache
 
 
 
@@ -12,9 +14,8 @@ class KnowledgeBase:
     def __init__(self):
 
         self.__search_engine = SearchEngine()
-        self.__query_cache = QueryCache('query_cache')
-        self.__contexts_cache = ContextsCache('contexts_cache')
-
+        self.__query_cache = QueryCache.create(Config.get('query_cache'))
+        self.__contexts_cache = ContextsCache.create(Config.get('contexts_cache'))
 
 
 
@@ -54,7 +55,7 @@ class KnowledgeBase:
         return contexts_titles
 
 
-    async def __context(self, title):
+    def __context(self, title):
 
         context = self.__contexts_cache.get(title)
 
