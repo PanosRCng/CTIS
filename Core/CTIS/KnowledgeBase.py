@@ -19,7 +19,6 @@ class KnowledgeBase:
         self.__query_cache = QueryCache.create(Config.get('query_cache'))
         self.__contexts_cache = ContextsCache.create(Config.get('contexts_cache'))
 
-        #self.__backedoff_store = SqliteDict(Data.get(Config.get('backedoff_store')), autocommit=True)
 
 
     def featured_context_set(self, term):
