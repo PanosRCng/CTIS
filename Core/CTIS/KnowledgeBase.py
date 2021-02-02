@@ -4,19 +4,22 @@ from Core.Config import Config
 from Core.CTIS.SearchEngine import SearchEngine
 from Core.CTIS.QueryCache.QueryCache import QueryCache
 from Core.CTIS.ContextsCache.ContextsCache import ContextsCache
-
+from Core.SQLiteDict import SQLiteDict
 
 
 
 class KnowledgeBase:
 
 
-    def __init__(self):
+    def __init__(self, on_miss_backoff=False):
+
+        self.__on_miss_backoff = on_miss_backoff
 
         self.__search_engine = SearchEngine()
         self.__query_cache = QueryCache.create(Config.get('query_cache'))
         self.__contexts_cache = ContextsCache.create(Config.get('contexts_cache'))
 
+        #self.__backedoff_store = SqliteDict(Data.get(Config.get('backedoff_store')), autocommit=True)
 
 
     def featured_context_set(self, term):
@@ -61,6 +64,10 @@ class KnowledgeBase:
 
         if context is not None:
             return context
+
+        if self.__on_miss_backoff is True:
+            SQLiteDict.store(Config.get('backedoff_store'))[title] = title
+            return None
 
         context = self.__search_engine.context(title)
 

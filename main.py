@@ -3,10 +3,9 @@ from multiprocessing import Pool
 from functools import partial
 
 from Core.Config import Config
-from Core.WikipediaUtils import WikipediaUtils
 from Core.CTIS.CTI import CTI
-
 from Core.CTIS.ContextsCache.ContextsCache import ContextsCache
+from Core.WikipediaUtils import WikipediaUtils
 
 import time
 

@@ -1,4 +1,5 @@
 {
+  "backedoff_store": "backedoff_store",
   "query_cache":
   {
     "name": "query_cache",

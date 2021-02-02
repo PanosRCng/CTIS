@@ -12,7 +12,7 @@ class CTI:
 
     def __init__(self):
 
-        self.__knowledge_base = KnowledgeBase()
+        self.__knowledge_base = KnowledgeBase(on_miss_backoff=True)
         self.__tfidf_vectorizer = TfidfVectorizer()
 
 
