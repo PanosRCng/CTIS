@@ -22,23 +22,11 @@ class KnowledgeBase:
 
 
     def featured_context_set(self, term):
-
-        contexts = []
-
-        for title in self.__contexts_titles(term):
-
-            context = self.__context(title)
-
-            if context is None:
-                continue
-
-            contexts.append(context)
-
-        return contexts
+        return [context for context in self.__get_contexts(self.__get_contexts_titles(term)) if context != '']
 
 
 
-    def __contexts_titles(self, term):
+    def __get_contexts_titles(self, term):
 
         response = self.__query_cache.get(term)
 
@@ -46,36 +34,38 @@ class KnowledgeBase:
             return json.loads(response)
 
         response = self.__search_engine.contexts_titles(term)
-
-        contexts_titles = json.loads(response)
-
-        if len(contexts_titles) == 0:
-            return []
-
         self.__query_cache.set(term, response)
 
-        return contexts_titles
+        return json.loads(response)
 
 
-    def __context(self, title):
+    def __get_contexts(self, titles):
 
-        context = self.__contexts_cache.get(title)
+        contexts = []
+        misses = []
 
-        if context is not None:
-            return context
+        for title, context in self.__contexts_cache.get(titles).items():
+
+            if context is not None:
+                contexts.append(context)
+            else:
+                misses.append(title)
 
         if self.__on_miss_backoff is True:
-            SQLiteDict.store(Config.get('backedoff_store'))[title] = title
-            return None
 
-        context = self.__search_engine.context(title)
+            for title in misses:
+                SQLiteDict.store(Config.get('backed_off_search')['store'])[title] = title
 
-        if context is None:
-            return None
+        else:
 
-        self.__contexts_cache.set(title, context)
+            new_contexts = self.__search_engine.contexts(misses)
 
-        return context
+            contexts += list(new_contexts.values())
+
+            self.__contexts_cache.set_many(new_contexts)
+
+        return contexts
+
 
 
 

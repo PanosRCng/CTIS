@@ -1,5 +1,4 @@
 {
-  "backedoff_store": "backedoff_store",
   "query_cache":
   {
     "name": "query_cache",
@@ -9,6 +8,12 @@
   {
     "name": "contexts_cache",
     "driver": "SqliteDictContextsCache"
+  },
+  "backed_off_search":
+  {
+    "store": "backedoff_store",
+    "seconds_between_searches": 1,
+    "empty_store_wait_seconds": 10
   },
   "elasticsearch":
   {

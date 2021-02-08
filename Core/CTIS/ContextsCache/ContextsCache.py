@@ -16,10 +16,15 @@ class ContextsCache(ABC):
 
 
     @abstractmethod
-    def set(self, query, response):
+    def set(self, title, context):
         pass
 
 
     @abstractmethod
-    def get(self, query):
+    def set_many(self, contexts_dict):
+        pass
+
+
+    @abstractmethod
+    def get(self, titles):
         pass

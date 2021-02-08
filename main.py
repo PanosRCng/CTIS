@@ -1,14 +1,19 @@
-import spacy
+from time import sleep
+from multiprocessing import Process
 from multiprocessing import Pool
 from functools import partial
+
+import spacy
 
 from Core.Config import Config
 from Core.CTIS.CTI import CTI
 from Core.CTIS.ContextsCache.ContextsCache import ContextsCache
+from Core.CTIS.SearchEngine import SearchEngine
 from Core.WikipediaUtils import WikipediaUtils
 
 import time
 
+from Core.SQLiteDict import SQLiteDict
 
 
 
@@ -28,10 +33,38 @@ def cti_job(term, cti, context):
     return term, cti.term_informativeness(term, context)
 
 
+def backed_off_search():
+
+    config = Config.get('backed_off_search')
+
+    contexts_cache = ContextsCache.create(Config.get('contexts_cache'))
+    search_engine = SearchEngine()
+
+    while True:
+
+        try:
+            title = SQLiteDict.store(config['store']).popitem()[0]
+        except KeyError:
+            print('no items')
+            sleep(config['empty_store_wait_seconds'])
+            continue
+
+        print(title)
+        sleep(config['seconds_between_searches'])
+
+        contexts_cache.set(title, search_engine.context(title))
+
+
 
 
 def main():
 
+
+    #process = Process(target=backed_off_search)
+    #process.start()
+    #process.join()
+
+    #return
 
     context = 'Ο ιός είναι παθογενετικός παράγοντας που δρα μολύνοντας τα κύτταρα ενός οργανισμού, ενσωματώνοντας το γενετικό του υλικό στο γονιδίωμα αυτών και χρησιμοποιώντας για τον πολλαπλασιασμό του τους μηχανισμούς αντιγραφής, μεταγραφής και μετάφρασης του κυττάρου, όπως και τα περισσότερα ένζυμα που χρειάζεται για την επιβίωση του.'
 
@@ -50,7 +83,6 @@ def main():
             continue
         terms.append(token.text)
 
-    #terms = terms[:2]
 
     start_time = time.time()
 
@@ -62,6 +94,10 @@ def main():
     with Pool(2) as p:
         for term, score in p.map(partial(cti_job, cti=cti, context=context), terms):
             scored[term] = score
+
+    #for term in terms:
+    #    scored[term] = cti.term_informativeness(term, context)
+
 
     scored = dict(sorted(scored.items(), key=lambda item: item[1], reverse=True))
 

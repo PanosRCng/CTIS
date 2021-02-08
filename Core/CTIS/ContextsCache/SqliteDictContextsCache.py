@@ -15,8 +15,20 @@ class SqliteDictContextsCache(ContextsCache):
         SQLiteDict.store(self.__cache_name)[title] = context
 
 
-    def get(self, title):
-        return SQLiteDict.store(self.__cache_name).get(title, default=None)
+    def set_many(self, contexts_dict):
+
+        for title, context in contexts_dict.items():
+            SQLiteDict.store(self.__cache_name)[title] = context
+
+
+    def get(self, titles):
+
+        contexts = {}
+
+        for title in titles:
+            contexts[title] = SQLiteDict.store(self.__cache_name).get(title, default=None)
+
+        return contexts
 
 
 
