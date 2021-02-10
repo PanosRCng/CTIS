@@ -24,7 +24,7 @@ class ElasticSearchContextsCache(ContextsCache):
 
 
     def set(self, title, context):
-        ES.connection('es').index(index=self.__cache_name, id=title, body={"response": context})
+        ES.connection('es').index(index=self.__cache_name, id=title, body={"context": context})
 
 
     def set_many(self, contexts_dict):

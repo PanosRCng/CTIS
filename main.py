@@ -14,6 +14,7 @@ from Core.WikipediaUtils import WikipediaUtils
 import time
 
 from Core.SQLiteDict import SQLiteDict
+from Core.ESService import ESService
 
 
 
@@ -59,6 +60,9 @@ def backed_off_search():
 
 def main():
 
+    #bootstrap_knowledge_base()
+    #return
+
     #ESService.delete_index(Config.get('query_cache')['name'])
     #ESService.delete_index(Config.get('contexts_cache')['name'])
     #return
@@ -66,7 +70,6 @@ def main():
     #process = Process(target=backed_off_search)
     #process.start()
     #process.join()
-
     #return
 
     context = 'Ο ιός είναι παθογενετικός παράγοντας που δρα μολύνοντας τα κύτταρα ενός οργανισμού, ενσωματώνοντας το γενετικό του υλικό στο γονιδίωμα αυτών και χρησιμοποιώντας για τον πολλαπλασιασμό του τους μηχανισμούς αντιγραφής, μεταγραφής και μετάφρασης του κυττάρου, όπως και τα περισσότερα ένζυμα που χρειάζεται για την επιβίωση του.'
