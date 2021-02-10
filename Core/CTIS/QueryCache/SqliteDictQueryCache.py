@@ -12,11 +12,11 @@ class SqliteDictQueryCache(QueryCache):
 
 
     def set(self, query, response):
-        SQLiteDict.store(self.__cache_name)[query] = response
+        SQLiteDict.storage(self.__cache_name)[query] = response
 
 
     def get(self, query):
-        return SQLiteDict.store(self.__cache_name).get(query, default=None)
+        return SQLiteDict.storage(self.__cache_name).get(query, default=None)
 
 
 

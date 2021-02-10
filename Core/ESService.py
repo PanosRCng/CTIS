@@ -17,7 +17,6 @@ class ESService:
             "_index": index_name,
             "_id": data['_id'],
             "text": data['text']
-            #"_source": data,
         } for data in data_generator)
 
         helpers.bulk(ES.connection('es'), body, chunk_size=500, request_timeout=100)

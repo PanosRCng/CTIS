@@ -1,13 +1,19 @@
 {
+  "CTI":
+  {
+    "knowledge_base": {
+      "on_miss_backoff": false
+    }
+  },
   "query_cache":
   {
-    "name": "query_cache",
-    "driver": "SqliteDictQueryCache"
+    "name": "wikipedia_queries",
+    "driver": "ElasticSearchQueryCache"
   },
   "contexts_cache":
   {
-    "name": "contexts_cache",
-    "driver": "SqliteDictContextsCache"
+    "name": "wikipedia_contexts",
+    "driver": "ElasticSearchContextsCache"
   },
   "backed_off_search":
   {

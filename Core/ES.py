@@ -1,5 +1,8 @@
+import os
+
 from elasticsearch import Elasticsearch
 from Core.Config import Config
+
 
 
 
@@ -48,17 +51,19 @@ class ES:
 
     def __get_conn(self, connection_name):
 
-        if self.__conn_exists(connection_name):
-            return self.__conns[connection_name]
+        pid_conn_name = self.__pid_connection_name(connection_name)
+
+        if self.__conn_exists(pid_conn_name):
+            return self.__conns[pid_conn_name]
 
         connection = self.__open_conn(self.__configs[connection_name])
 
         if connection is None:
             return None
 
-        self.__conns[connection_name] = connection
+        self.__conns[pid_conn_name] = connection
 
-        return self.__conns[connection_name]
+        return self.__conns[pid_conn_name]
 
 
     def __conn_exists(self, connection_name):
@@ -91,3 +96,9 @@ class ES:
             return None
 
         return connection
+
+
+    def __pid_connection_name(self, connection_name):
+        return connection_name + '_' + str(os.getpid())
+
+

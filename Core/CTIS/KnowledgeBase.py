@@ -11,9 +11,9 @@ from Core.SQLiteDict import SQLiteDict
 class KnowledgeBase:
 
 
-    def __init__(self, on_miss_backoff=False):
+    def __init__(self):
 
-        self.__on_miss_backoff = on_miss_backoff
+        self.__on_miss_backoff = Config.get('CTI')['knowledge_base']['on_miss_backoff']
 
         self.__search_engine = SearchEngine()
         self.__query_cache = QueryCache.create(Config.get('query_cache'))
@@ -52,9 +52,8 @@ class KnowledgeBase:
                 misses.append(title)
 
         if self.__on_miss_backoff is True:
-
             for title in misses:
-                SQLiteDict.store(Config.get('backed_off_search')['store'])[title] = title
+                SQLiteDict.storage(Config.get('backed_off_search')['store'])[title] = title
 
         else:
 

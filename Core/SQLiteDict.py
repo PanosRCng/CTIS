@@ -27,8 +27,8 @@ class SQLiteDict:
 
 
     @staticmethod
-    def store(store_name):
-        return SQLiteDict.__get_instance().__get_store(store_name)
+    def storage(storage_name):
+        return SQLiteDict.__get_instance().__get_storage(storage_name)
 
 
 
@@ -36,27 +36,27 @@ class SQLiteDict:
         self.__sqldicts = {}
 
 
-    def __get_store(self, store_name):
+    def __get_storage(self, storage_name):
 
-        if self.__store_exists(store_name):
-            return self.__sqldicts[store_name]
+        if self.__storage_exists(storage_name):
+            return self.__sqldicts[storage_name]
 
-        store = SqliteDict(Data.get(store_name), autocommit=True)
+        storage = SqliteDict(Data.get(storage_name), autocommit=True)
 
-        if store is None:
+        if storage is None:
             return None
 
-        self.__sqldicts[store_name] = store
+        self.__sqldicts[storage_name] = storage
 
-        return self.__sqldicts[store_name]
+        return self.__sqldicts[storage_name]
 
 
-    def __store_exists(self, store_name):
+    def __storage_exists(self, storage_name):
 
-        if store_name not in self.__sqldicts:
+        if storage_name not in self.__sqldicts:
             return False
 
-        if self.__sqldicts[store_name] is None:
+        if self.__sqldicts[storage_name] is None:
             return False
 
         return True

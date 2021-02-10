@@ -43,7 +43,7 @@ def backed_off_search():
     while True:
 
         try:
-            title = SQLiteDict.store(config['store']).popitem()[0]
+            title = SQLiteDict.storage(config['store']).popitem()[0]
         except KeyError:
             print('no items')
             sleep(config['empty_store_wait_seconds'])
@@ -59,6 +59,9 @@ def backed_off_search():
 
 def main():
 
+    #ESService.delete_index(Config.get('query_cache')['name'])
+    #ESService.delete_index(Config.get('contexts_cache')['name'])
+    #return
 
     #process = Process(target=backed_off_search)
     #process.start()
