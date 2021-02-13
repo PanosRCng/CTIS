@@ -19,18 +19,17 @@ installation
 
 
 
-usage: main.py [-h] {start,bootstrap_knowledge_base,clear_knowledge_base} ...
+usage: main.py [-h] {start,bootstrap_knowledge_base,clear_knowledge_base}
 
 Context-Aware Term Informativeness System
 
+
 positional arguments:
-  {start,bootstrap_knowledge_base,clear_knowledge_base}
-                        operations
-    start               starts the server
-    bootstrap_knowledge_base
-                        bootstraps the knowledge base using an offline wikipedia dump
-    clear_knowledge_base
-                        removes all entries from the knowledge base
+
+    start                       starts the server
+    bootstrap_knowledge_base    bootstraps the knowledge base using an offline wikipedia dump
+    clear_knowledge_base        removes all entries from the knowledge base
+
 
 optional arguments:
-  -h, --help            show this help message and exit
+    -h, --help            show this help message and exit
