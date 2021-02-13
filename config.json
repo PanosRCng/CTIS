@@ -25,7 +25,8 @@
       "seconds_between_searches": 1,
       "empty_storage_wait_seconds": 10
     },
-    "space_postag_model": "el_core_news_md"
+    "space_postag_model": "el_core_news_md",
+    "max_processes_per_job": 2
   },
   "elasticsearch":
   {

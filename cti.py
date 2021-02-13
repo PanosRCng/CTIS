@@ -1,6 +1,6 @@
-from time import sleep
-import signal
 import sys
+import signal
+from time import sleep
 from multiprocessing import Process
 from multiprocessing import Pool
 from functools import partial
@@ -67,7 +67,7 @@ def handle_cti_request(context):
 
     else:
 
-        with Pool(2) as p:
+        with Pool(Config.get('CTI')['max_processes_per_job']) as p:
             for term, score in p.map(partial(cti_job, cti=cti, context=context), terms):
                 scored[term] = score
 
