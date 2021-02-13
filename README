@@ -1,7 +1,7 @@
 Context-aware Term Informativeness System
 
-a system that computes term informativeness using wikipedia as the knowledge base
-and sqlitedict / elasticsearch as "cache", exposed as flask app
+a system that computes term informativeness, using wikipedia as the knowledge base
+and sqlitedict / elasticsearch as "cache", exposed as flask web app
 
 
 a python implementation of the web knowledge based method for term informativeness described in:
