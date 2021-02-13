@@ -14,7 +14,6 @@ from Core.WikipediaUtils import WikipediaUtils
 from Core.SQLiteDict import SQLiteDict
 from Core.ElasticSearch.ESService import ESService
 
-import spacy
 from flask import Flask, request, abort
 
 
@@ -24,7 +23,6 @@ server = Flask(__name__)
 
 cti = CTI()
 
-nlp = spacy.load(Config.get('CTI')['space_postag_model'])
 
 
 
@@ -37,23 +35,16 @@ def cti_route():
 
         req = request.get_json()
 
+        terms = req['terms']
         context = req['context']
 
     except Exception as ex:
         abort(400)
 
-    return handle_cti_request(context)
+    return handle_cti_request(terms, context)
 
 
-def handle_cti_request(context):
-
-    terms = []
-
-    for token in nlp(context):
-
-        if token.pos_ not in ['NOUN', 'ADJ']:
-            continue
-        terms.append(token.text)
+def handle_cti_request(terms, context):
 
     if len(terms) == 0:
         return {}
