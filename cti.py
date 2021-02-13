@@ -11,7 +11,6 @@ from Core.CTIS.CTI import CTI
 from Core.CTIS.ContextsCache.ContextsCache import ContextsCache
 from Core.CTIS.SearchEngine import SearchEngine
 from Core.WikipediaUtils import WikipediaUtils
-
 from Core.SQLiteDict import SQLiteDict
 from Core.ElasticSearch.ESService import ESService
 
