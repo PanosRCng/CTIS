@@ -38,7 +38,7 @@ class ES:
 
     def __setup(self):
         self.__conns = {}
-        self.__configs = Config.get('elasticsearch')
+        self.__configs = Config.get('elasticsearch')['connections']
 
 
     def __connection(self, connection_name):

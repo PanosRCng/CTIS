@@ -1,10 +1,10 @@
 from elasticsearch import helpers
 
 from Core.CTIS.ContextsCache.ContextsCache import ContextsCache
-from Core.ES import ES
-from Core.ESService import ESService
-from Core.Logger import Logger
 from Core.Config import Config
+from Core.ElasticSearch.ES import ES
+from Core.ElasticSearch.ESService import ESService
+from Core.Logger import Logger
 
 
 
@@ -20,7 +20,7 @@ class ElasticSearchContextsCache(ContextsCache):
             Logger.log(__name__, 'could not connect to elasticsearch', type='error')
             return
 
-        ESService.create_index(Config.get('contexts_cache')['name'])
+        ESService.create_index(self.__cache_name, Config.get('elasticsearch')['indices_settings'][self.__cache_name])
 
 
     def set(self, title, context):
@@ -46,10 +46,6 @@ class ElasticSearchContextsCache(ContextsCache):
             contexts[title] = None
 
         for hit in ESService.get_by_ids(self.__cache_name, titles):
-
-            if 'context' not in hit['_source']:
-                print(hit)
-
             contexts[hit['_id']] = hit['_source']['context']
 
         return contexts

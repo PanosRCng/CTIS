@@ -1,32 +1,72 @@
 {
+  "server": {
+    "host": "127.0.0.1",
+    "port": 5000,
+    "thread_per_request": true
+  },
   "CTI":
   {
-    "knowledge_base": {
-      "on_miss_backoff": false
-    }
-  },
-  "query_cache":
-  {
-    "name": "wikipedia_queries",
-    "driver": "ElasticSearchQueryCache"
-  },
-  "contexts_cache":
-  {
-    "name": "wikipedia_contexts",
-    "driver": "ElasticSearchContextsCache"
-  },
-  "backed_off_search":
-  {
-    "store": "backedoff_store",
-    "seconds_between_searches": 1,
-    "empty_store_wait_seconds": 10
+    "knowledge_base":
+    {
+      "on_miss_backoff": true,
+      "query_cache":
+      {
+        "name": "wikipedia_queries",
+        "driver": "ElasticSearchQueryCache"
+      },
+      "contexts_cache":
+      {
+        "name": "wikipedia_contexts",
+        "driver": "ElasticSearchContextsCache"
+      }
+    },
+    "backed_off_search": {
+      "storage_name": "backedoff_storage",
+      "seconds_between_searches": 1,
+      "empty_storage_wait_seconds": 10
+    },
+    "space_postag_model": "el_core_news_md"
   },
   "elasticsearch":
   {
-    "es": {
-      "host": "192.168.1.12",
-      "port": 8000,
-      "url_prefix": "es"
+    "connections": {
+      "es": {
+        "host": "192.168.1.12",
+        "port": 8000,
+        "url_prefix": "es"
+      }
+    },
+    "indices_settings": {
+      "wikipedia_contexts":
+      {
+        "settings": {
+          "number_of_shards": 1,
+          "number_of_replicas": 0
+        },
+        "mappings": {
+          "properties": {
+            "context": {
+              "type": "object",
+              "enabled": false
+            }
+          }
+        }
+      },
+      "wikipedia_queries":
+      {
+        "settings": {
+          "number_of_shards": 1,
+          "number_of_replicas": 0
+        },
+        "mappings": {
+          "properties": {
+            "response": {
+              "type": "object",
+              "enabled": false
+            }
+          }
+        }
+      }
     }
   }
 }

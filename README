@@ -1,0 +1,36 @@
+Context-aware Term Informativeness System
+
+a system that computes term informativeness using wikipedia as the knowledge base
+and sqlitedict / elasticsearch as "cache", exposed as flask app
+
+
+a python implementation of the web knowledge based method for term informativeness described in:
+
+Measuring Term Informativeness in Context. Z Wu, CL Giles. Proceedings of NAACL-HLT 2013, 259-269
+
+
+
+
+
+installation
+
+- pip install -r requirements.txt
+
+
+
+
+usage: main.py [-h] {start,bootstrap_knowledge_base,clear_knowledge_base} ...
+
+Context-Aware Term Informativeness System
+
+positional arguments:
+  {start,bootstrap_knowledge_base,clear_knowledge_base}
+                        operations
+    start               starts the server
+    bootstrap_knowledge_base
+                        bootstraps the knowledge base using an offline wikipedia dump
+    clear_knowledge_base
+                        removes all entries from the knowledge base
+
+optional arguments:
+  -h, --help            show this help message and exit

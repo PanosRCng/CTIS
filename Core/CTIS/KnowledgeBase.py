@@ -13,11 +13,13 @@ class KnowledgeBase:
 
     def __init__(self):
 
-        self.__on_miss_backoff = Config.get('CTI')['knowledge_base']['on_miss_backoff']
+        self.__config = Config.get('CTI')['knowledge_base']
+
+        self.__on_miss_backoff = self.__config['on_miss_backoff']
 
         self.__search_engine = SearchEngine()
-        self.__query_cache = QueryCache.create(Config.get('query_cache'))
-        self.__contexts_cache = ContextsCache.create(Config.get('contexts_cache'))
+        self.__query_cache = QueryCache.create(self.__config['query_cache'])
+        self.__contexts_cache = ContextsCache.create(self.__config['contexts_cache'])
 
 
 
@@ -53,7 +55,7 @@ class KnowledgeBase:
 
         if self.__on_miss_backoff is True:
             for title in misses:
-                SQLiteDict.storage(Config.get('backed_off_search')['store'])[title] = title
+                SQLiteDict.storage(Config.get('CTI')['backed_off_search']['storage_name'])[title] = title
 
         else:
 

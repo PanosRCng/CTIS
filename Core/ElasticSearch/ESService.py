@@ -1,8 +1,7 @@
 from elasticsearch import helpers
 
-from Core.ES import ES
+from Core.ElasticSearch.ES import ES
 from Core.Logger import Logger
-from Core.Resources import Resources
 
 
 
@@ -65,7 +64,7 @@ class ESService:
 
 
     @staticmethod
-    def create_index(name):
+    def create_index(name, config):
 
         try:
 
@@ -73,7 +72,7 @@ class ESService:
                 Logger.log(__name__, 'index ' + name + ' already exists', type='warning')
                 return True
 
-            ES.connection('es').indices.create(index=name, body=Resources.get('indices_settings')[name])
+            ES.connection('es').indices.create(index=name, body=config)
 
         except Exception as ex:
             Logger.log(__name__, 'could not create index ' + name + '\t' + str(ex), type='error')

@@ -1,7 +1,7 @@
 from Core.CTIS.QueryCache.QueryCache import QueryCache
 from Core.Config import Config
-from Core.ES import ES
-from Core.ESService import ESService
+from Core.ElasticSearch.ES import ES
+from Core.ElasticSearch.ESService import ESService
 from Core.Logger import Logger
 
 
@@ -18,7 +18,7 @@ class ElasticSearchQueryCache(QueryCache):
             Logger.log(__name__, 'could not connect to elasticsearch', type='error')
             return
 
-        ESService.create_index(Config.get('query_cache')['name'])
+        ESService.create_index(self.__cache_name, Config.get('elasticsearch')['indices_settings'][self.__cache_name])
 
 
 
