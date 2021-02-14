@@ -16,7 +16,7 @@ installation
 
 - pip install -r requirements.txt
 
-- cp config.example.json config.json
+- cp config.json.example config.json
 
 
 
