@@ -15,6 +15,8 @@ def main():
 
     clear_knowledge_base_parser = subparsers.add_parser('clear_knowledge_base', help='removes all entries from the knowledge base')
 
+    clear_backedoff_storage_parser = subparsers.add_parser('clear_backedoff_storage', help='removes all entries from the backedoff search storage')
+
 
     args = vars(parser.parse_args())
 
@@ -30,6 +32,9 @@ def main():
         import cti
         cti.clear_knowledge_base()
 
+    if args['operation'] == 'clear_backedoff_storage':
+        import cti
+        cti.clear_backedoff_storage()
 
 
 

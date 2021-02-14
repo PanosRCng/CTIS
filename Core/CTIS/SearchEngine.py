@@ -7,12 +7,14 @@ import wikipedia
 class SearchEngine:
 
 
-    def __init__(self):
+    def __init__(self, top_n_contexts_per_query=10):
+
+        self.__top_n_contexts_per_query = top_n_contexts_per_query
         wikipedia.set_lang("el")
 
 
     def contexts_titles(self, term):
-        return json.dumps(wikipedia.search(term, results=10, suggestion=False))
+        return json.dumps(wikipedia.search(term, results=self.__top_n_contexts_per_query, suggestion=False))
 
 
     def context(self, title):

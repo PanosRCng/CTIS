@@ -1,5 +1,6 @@
 import sys
 import signal
+import os
 from time import sleep
 from multiprocessing import Process
 from multiprocessing import Pool
@@ -7,6 +8,7 @@ from functools import partial
 
 from Core.Config import Config
 from Core.Logger import Logger
+from Core.Data import Data
 from Core.CTIS.CTI import CTI
 from Core.CTIS.ContextsCache.ContextsCache import ContextsCache
 from Core.CTIS.SearchEngine import SearchEngine
@@ -51,7 +53,7 @@ def handle_cti_request(terms, context):
 
     scored = {}
 
-    if len(terms) == 1:
+    if (Config.get('CTI')['max_processes_per_job'] == 1) or (len(terms) == 1):
 
         for term in terms:
             scored[term] = cti.term_informativeness(term, context)
@@ -61,6 +63,7 @@ def handle_cti_request(terms, context):
         with Pool(Config.get('CTI')['max_processes_per_job']) as p:
             for term, score in p.map(partial(cti_job, cti=cti, context=context), terms):
                 scored[term] = score
+
 
     scored = dict(sorted(scored.items(), key=lambda item: item[1], reverse=True))
 
@@ -84,6 +87,9 @@ def backed_off_search():
     search_engine = SearchEngine()
 
     Logger.log(__name__, 'backed off search process started')
+    Logger.log(__name__, 'backed off search storage has ' + str(len(SQLiteDict.storage(config['storage_name']))) + ' items')
+
+    c = 0
 
     while True:
 
@@ -96,6 +102,11 @@ def backed_off_search():
         contexts_cache.set(title, search_engine.context(title))
 
         Logger.log(__name__, 'backed off search got context for: ' + title)
+
+        c += 1
+        if c > 30:
+            c = 0
+            Logger.log(__name__, 'backed off search storage has ' + str(len(SQLiteDict.storage(config['storage_name']))) + ' items')
 
         sleep(config['seconds_between_searches'])
 
@@ -133,6 +144,15 @@ def bootstrap_knowledge_base(dump_directory):
 def clear_knowledge_base():
     ESService.delete_index(Config.get('CTI')['knowledge_base']['query_cache']['name'])
     ESService.delete_index(Config.get('CTI')['knowledge_base']['contexts_cache']['name'])
-    Logger.log(__name__, 'knowledge base is now empty')
+    Logger.log(__name__, 'the knowledge base is now empty')
 
 
+def clear_backedoff_storage():
+
+    storage_path = Data.get(Config.get('CTI')['backed_off_search']['storage_name'])
+
+    if os.path.isfile(storage_path):
+        os.remove(storage_path)
+        Logger.log(__name__, 'the backedoff search storage is now empty')
+    else:
+        Logger.log(__name__, 'the backedoff search storage is already empty')

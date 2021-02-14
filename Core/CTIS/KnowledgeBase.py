@@ -17,7 +17,7 @@ class KnowledgeBase:
 
         self.__on_miss_backoff = self.__config['on_miss_backoff']
 
-        self.__search_engine = SearchEngine()
+        self.__search_engine = SearchEngine(top_n_contexts_per_query=self.__config['max_contexts_per_query'])
         self.__query_cache = QueryCache.create(self.__config['query_cache'])
         self.__contexts_cache = ContextsCache.create(self.__config['contexts_cache'])
 
