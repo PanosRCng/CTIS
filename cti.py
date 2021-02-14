@@ -56,16 +56,13 @@ def handle_cti_request(terms, context):
     if (Config.get('CTI')['max_processes_per_job'] == 1) or (len(terms) == 1):
 
         for term in terms:
-            scored[term] = cti.term_informativeness(term, context)
+            scored[term] = round(cti.term_informativeness(term, context), 2)
 
     else:
 
         with Pool(Config.get('CTI')['max_processes_per_job']) as p:
             for term, score in p.map(partial(cti_job, cti=cti, context=context), terms):
                 scored[term] = score
-
-
-    scored = dict(sorted(scored.items(), key=lambda item: item[1], reverse=True))
 
     return scored
 
