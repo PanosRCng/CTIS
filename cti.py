@@ -133,7 +133,7 @@ def bootstrap_knowledge_base(dump_directory):
 
     contexts_cache = ContextsCache.create(Config.get('CTI')['knowledge_base']['contexts_cache'])
 
-    for article in WikipediaUtils.get_articles(dump_directory, attributes=['title', 'context'], max_articles=10):
+    for article in WikipediaUtils.get_articles(dump_directory, attributes=['title', 'context']):
         contexts_cache.set(article['title'], article['context'])
         Logger.log(__name__, 'bootstrapping got context for: ' + article['title'])
 
