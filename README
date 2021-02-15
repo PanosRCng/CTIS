@@ -25,3 +25,4 @@ usage: main.py [-h] {start,bootstrap_knowledge_base,clear_knowledge_base}
 start / starts the server
 bootstrap_knowledge_base / bootstraps the knowledge base using an offline wikipedia dump
 clear_knowledge_base / removes all entries from the knowledge base
+clear_backedoff_storage / removes all entries from the backedoff search storage
